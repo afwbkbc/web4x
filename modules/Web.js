@@ -6,6 +6,8 @@ class Web extends require( './_Module' ) {
 		
 		const Twig = require( 'twig' );
 		const Express = require( 'express' );
+		const WebSocketServer = require( 'websocket' ).server;
+		const Connection = require( './web/Connection' );
 		
 		Twig.cache( false );
 		
@@ -31,8 +33,37 @@ class Web extends require( './_Module' ) {
 		var http_server = this.app.listen( port, () => {
 			return done();
 		});
+		
+		this.connections = {};
+		this.connection_id = 1;
+		
+		this.ws = new WebSocketServer({
+			httpServer : http_server,
+			autoAcceptConnections: false,
+		});
+
+		this.ws.on( 'request', ( req ) => {
+			var id = this.connection_id++;
+			var connection = new Connection( this, id, req.accept( 'web4x', req.origin ) );
+			this.connections[ id ] = connection;
+		});
+		
 	}
 	
+	/*SendData( data ) {
+		for ( var k in this.connections )
+			this.connections[ k ].SendData( data );
+	}
+	
+	ReceiveAllData( ws_connection ) {
+		for ( var k in this.web.data_state )
+			ws_connection.SendData( this.web.data_state[ k ] );
+	}*/
+	
+	RemoveConnection( ws_connection ) {
+		console.log( 'removing connection' );
+		delete this.connections[ ws_connection.id ];
+	}
 }
 
 module.exports = Web;
