@@ -1,0 +1,19 @@
+{
+  "name": "web4x",
+  "version": "1.0.0",
+  "description": "Web-based 4X strategy engine",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/afwbkbc/web4x.git"
+  },
+  "author": "afwbkbc",
+  "license": "LGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/afwbkbc/web4x/issues"
+  },
+  "homepage": "https://github.com/afwbkbc/web4x#readme"
+}
