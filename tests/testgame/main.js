@@ -1,7 +1,22 @@
-var game = new ( require( '../../web4x.js' ) );
+const X = require( '../../web4x.js' );
 
-game.Init( () => {
+var engine = new X.Engine({
+	http:{
+		port: 1337,
+	},
+});
+
+engine.Init( () => {
 	
 	console.log( 'INIT OK' )
+	
+	// TODO: add games
+	
+	console.log( 'RUNNING...' );
+	
+	engine.Run( () => {
+		
+		console.log( 'FINISHED' );
+	});
 	
 });
