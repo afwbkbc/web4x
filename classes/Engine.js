@@ -3,19 +3,17 @@ class Engine extends require( './_Class.js' ) {
 	constructor( options ) {
 		super();
 		
-		// default options
-		this.options = {
+		this.loadOptions( {
+			title: 'web4x - web-based 4x strategy engine',
 			http: {
 				port: 80,
 				ws: {
 					protocol: 'web4x',
 				},
 			},
-		}
+		}, options );
 		
-		// add custom options
-		if ( options )
-			this.options = require( 'deepmerge' )( this.options, options );
+		this.game = null;
 	}
 	
 	Init( done ) {
@@ -24,6 +22,10 @@ class Engine extends require( './_Class.js' ) {
 	
 	Run( done ) {
 		this.callModuleFunc( 'Run', done );
+	}
+	
+	SetGame( game ) {
+		this.game = game;
 	}
 	
 }

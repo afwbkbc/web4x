@@ -22,7 +22,7 @@ class Web extends require( './_Module' ) {
 		
 		this.app.get( '/', ( req, res ) => {
 			res.render( 'index.html.twig', {
-				title: 'kek',
+				title: this.engine.options.title,
 			});
 		});
 		

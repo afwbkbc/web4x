@@ -10,7 +10,11 @@ engine.Init( () => {
 	
 	console.log( 'INIT OK' )
 	
-	// TODO: add games
+	var game = new X.Game({
+		title: 'Test Game',
+	});
+	
+	engine.SetGame( game );
 	
 	console.log( 'RUNNING...' );
 	

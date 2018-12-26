@@ -2,6 +2,7 @@ class _Class {
 	
 	constructor() {
 		this.Fs = require( 'fs' );
+		this.DeepMerge = require( 'deepmerge' );
 		
 		this.class_name = this.constructor.name;
 		
@@ -9,10 +10,13 @@ class _Class {
 
 		// load js modules into this.modules if corresponding directory exists
 		var modules_dir = __dirname + '/' + this.class_name;
+		var has_modules = true;
 		try {
 			this.Fs.statSync( modules_dir );
-		} catch(e) {
-		} finally {
+		} catch( e ) {
+			has_modules = false;
+		} 
+		if ( has_modules ) {
 			var files = this.Fs.readdirSync( modules_dir );
 			
 			for ( var k in files ) {
@@ -46,6 +50,10 @@ class _Class {
 				next();
 		}
 
+	}
+	
+	loadOptions( defaults, options ) {
+		this.options = options ? this.DeepMerge( defaults, options ) : defaults;
 	}
 	
 }
