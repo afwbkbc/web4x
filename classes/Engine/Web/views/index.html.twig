@@ -4,12 +4,15 @@
 		<title>{{ title }}</title>
 		<link rel="stylesheet" href="/css/normalize.css"/>
 		<link rel="stylesheet" href="/css/app.css"/>
-		<script src="/js/jquery-3.3.1.min.js"></script>
-		<script src="/js/jquery.cookie.js"></script>
-		<script src="/js/app.js"></script>
+		{% for script in scripts %}
+			<script src="{{ script }}"></script>
+		{% endfor %}
 	</head>
 	<body>
-		
+		<script>
+			window.App.Init();
+			window.App.Start();
+		</script>
 	</body>
 
 </html>

@@ -23,6 +23,7 @@ class Web extends require( './_Module' ) {
 	
 	Init( done ) {
 		
+		const Fs = require( 'fs' );
 		const Twig = require( 'twig' );
 		const Express = require( 'express' );
 		
@@ -39,11 +40,35 @@ class Web extends require( './_Module' ) {
 		    strict_variables: false
 		});
 		
-		this.app.use( Express.static( wwwroot + '/static' ) );
+		var static_dir = wwwroot + '/static';
+		this.app.use( Express.static( static_dir ) );
+		
+		var get_scripts = ( dir ) => {
+			var scripts = [];
+			var path = static_dir + dir;
+			var files = Fs.readdirSync( path );
+			
+			for ( var k in files ) {
+				var file = files[ k ];
+				var file_path = path + '/' + file;
+				
+				if ( Fs.lstatSync( file_path ).isDirectory() ) {
+					scripts = scripts.concat( get_scripts( dir + '/' + file ) );
+				}
+				else {
+					if ( file.substring( file.length - 3, file.length ) == '.js' )
+						scripts.push( dir + '/' + file );
+				}
+			}
+			return scripts;
+		}
+		
+		var scripts = get_scripts( '/js' );
 		
 		this.app.get( '/', ( req, res ) => {
 			res.render( 'index.html.twig', {
 				title: this.engine.options.title,
+				scripts:scripts,
 			});
 		});
 		
