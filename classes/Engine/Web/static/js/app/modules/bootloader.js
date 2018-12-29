@@ -8,16 +8,17 @@ window.App.Extend({
 			
 			app.StartSession( function() {
 				
-				console.log( 'READY', app.session.id );
+				app.StartGame();
 				
 			});
 			
 		}, function() { // OnClose
 			
+			app.StopGame();
 			app.StopSession();
 			
 		});
 		
-	}
+	},
 	
 });

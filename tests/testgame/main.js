@@ -10,13 +10,22 @@ engine.Init( () => {
 	
 	console.log( 'INIT OK' )
 	
-	var game = new ( require( './TestGame' )( X ) );
-	
-	/*var game = new X.Game({
+	var game = new X.Game({
 		title: 'Test Game',
-	});*/
+	});
 	
-	//engine.SetGame( game );
+	var menu = new X.Menu({
+		'Host game': () => {
+			console.log( 'HOST GAME' );
+		},
+		'Join game': () => {
+			console.log( 'JOIN GAME' );
+		},
+	});
+	
+	game.SetEntryPoint( menu );
+	
+	engine.SetGame( game );
 	
 	console.log( 'RUNNING...' );
 	

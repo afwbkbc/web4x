@@ -2,10 +2,13 @@ window.App.Extend({
 	
 	session: {
 		id: null,
+		cb: {
+			onstart: null,
+		},
 	},
 	
 	StartSession: function( onstart ) {
-		console.log( 'STARTSESSION' );
+		this.session.cb.onstart = onstart;
 		
 		var cookie = $.cookie( 'w4xsid' );
 		if ( !cookie ) {
@@ -21,11 +24,14 @@ window.App.Extend({
 	SetSession: function( id ) {
 		$.cookie( 'w4xsid', id );
 		this.session.id = id;
-		console.log( 'SESSION', id );
+		if ( this.session.cb.onstart ) {
+			var cb = this.session.cb.onstart;
+			this.session.cb.onstart = null;
+			cb();
+		}
 	},
 	
 	StopSession: function() {
-		console.log( 'STOPSESSION' );
 		for ( var k in this.session )
 			this.session[ k ] = null;
 	},
