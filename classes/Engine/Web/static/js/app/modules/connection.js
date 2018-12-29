@@ -1,75 +1,95 @@
-window.App.modules.connection = {
-	
-	reconnect_timeout: 1000,
-	reconnect_timeout_max: 10000,
-	
-	Init: function() {
-		this.socket = null;
-		this.reconnect = {
+window.App.Extend({
+
+	connection: {
+		reconnect_timeout: 1000,
+		reconnect_timeout_max: 10000,
+		socket: null,
+		reconnect: {
 			timer: null,
 			timeout: null,
-		};
+		},
+		
+		OnOpen: function( that ) {
+			window.App.RemoveStatus( 'OFFLINE' );
+			console.log( 'connected' );
+			if ( this.cb.onopen )
+				this.cb.onopen();
+		},
+	
+		OnClose: function( that ) {
+			if ( !this.socket ) {
+				console.log( 'not connected' );
+				return;
+			}
+			window.App.AddStatus( 'OFFLINE' );
+			this.socket = null;
+			console.log( 'disconnected' );
+			if ( this.cb.onclose )
+				this.cb.onclose();
+			that.Reconnect();
+		},
+	
+		OnMessage: function( that, e ) {
+			console.log( 'ONMESSAGE', e.data );
+		},
+		
+		cb: {
+			onopen: null,
+			onclose: null,
+		},
 	},
 	
-	Start: function() {
-		this.Connect();
-	},
-	
-	OnOpen: function() {
-		window.App.RemoveStatus( 'OFFLINE' );
-		console.log( 'connected' );
-	},
-	
-	OnClose: function() {
-		if ( !this.socket ) {
-			console.log( 'not connected' );
-			return;
-		}
-		window.App.AddStatus( 'OFFLINE' );
-		this.socket = null;
-		console.log( 'disconnected' );
-		this.Reconnect();
-	},
-	
-	OnMessage: function( e ) {
-		console.log( 'ONMESSAGE', e );
-	},
-	
-	Connect: function() {
-		if ( this.socket ) {
+	Connect: function( onopen, onclose ) {
+		var c = this.connection;
+		if ( c.socket ) {
 			console.log( 'websocket already active' );
 			return;
 		}
-		this.socket = new WebSocket( 'ws://' + window.location.host, [ 'web4x' ] );
-		var c = this;
-		this.socket.onopen = function() { c.OnOpen() };
-		this.socket.onclose = function() { c.OnClose() };
-		this.socket.onmessage = function( e ) { c.OnMessage( e ) };
+		c.cb.onopen = onopen;
+		c.cb.onclose = onclose;
+		c.socket = new WebSocket( 'ws://' + window.location.host, [ 'web4x' ] );
+		var that = this;
+		c.socket.onopen = function() { c.OnOpen( that ) };
+		c.socket.onclose = function() { c.OnClose( that ) };
+		c.socket.onmessage = function( e ) { c.OnMessage( that, e ) };
 	},
 	
 	Reconnect: function() {
-		if ( this.socket ) {
+		var c = this.connection;
+		if ( c.socket ) {
 			console.log( 'already connected' );
 			return;
 		}
-		if ( this.reconnect.timer ) {
+		if ( c.reconnect.timer ) {
 			console.log( 'already reconnecting' );
 			return;
 		}
-		if ( !this.reconnect.timeout ) // first reconnect
-			this.reconnect.timeout = this.reconnect_timeout;
+		if ( !c.reconnect.timeout ) // first reconnect
+			c.reconnect.timeout = c.reconnect_timeout;
 		else { // consecutive reconnects, need to avoid builting flood protection
-			this.reconnect.timeout += this.reconnect_timeout;
-			if ( this.reconnect.timeout > this.reconnect_timeout_max )
-				this.reconnect.timeout = this.reconnect_timeout_max;
+			c.reconnect.timeout += c.reconnect_timeout;
+			if ( c.reconnect.timeout > c.reconnect_timeout_max )
+				c.reconnect.timeout = c.reconnect_timeout_max;
 		}
-		console.log( 'reconnecting in ' + this.reconnect.timeout + 'ms' );
+		console.log( 'reconnecting in ' + c.reconnect.timeout + 'ms' );
 		var that = this;
-		this.reconnect.timer = setTimeout( function() {
-			that.reconnect.timer = null;
+		c.reconnect.timer = setTimeout( function() {
+			c.reconnect.timer = null;
 			that.Connect();
-		}, this.reconnect.timeout );
+		}, c.reconnect.timeout );
 		
-	}
+	},
 	
-}
+	SendMessage: function( command, data ) {
+		var c = this.connection;
+		if ( !c.socket ) {
+			console.log( 'unable to send, connection offline' );
+			return;
+		}
+		c.socket.send( JSON.stringify( {
+			command: command,
+			data: data,
+		} ) );
+	},
+	
+});

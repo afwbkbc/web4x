@@ -1,17 +1,9 @@
 window.App = {
 	
-	modules: {},
-	
-	Init: function() {
-		for ( var k in this.modules )
-			if ( this.modules[ k ].Init )
-				this.modules[ k ].Init();
+	Extend: function( obj ) {
+		for ( var k in obj ) {
+			this[ k ] = obj[ k ];
+		}
 	},
-	
-	Start: function() {
-		for ( var k in this.modules )
-			if ( this.modules[ k ].Start )
-				this.modules[ k ].Start();
-	}
 	
 };

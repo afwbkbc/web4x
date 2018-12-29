@@ -1,10 +1,4 @@
-window.App.modules.state = {
-
-	Init: function() {
-		
-		window.App.AddStatus = this.AddStatus;
-		window.App.RemoveStatus = this.RemoveStatus;
-	},
+window.App.Extend({
 
 	AddStatus: function( status ) {
 		// TODO: improve
@@ -16,4 +10,4 @@ window.App.modules.state = {
 		$( 'html title' ).html( $( 'html title' ).html().replace( '(' + status + ') ', '' ) );
 	},
 	
-}
+});
