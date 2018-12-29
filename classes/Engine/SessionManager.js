@@ -1,5 +1,7 @@
 class SessionManager extends require( './_Module' ) {
 	
+	// TODO: db
+	
 	constructor( engine ) {
 		super( engine );
 
@@ -16,6 +18,12 @@ class SessionManager extends require( './_Module' ) {
 		
 		this.sessions[ id ] = new this.Session( this, id );
 		
+		return this.sessions[ id ];
+	}
+	
+	GetSession( id ) {
+		if ( !this.sessions[ id ] )
+			return this.CreateSession();
 		return this.sessions[ id ];
 	}
 }

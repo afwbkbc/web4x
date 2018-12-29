@@ -7,7 +7,7 @@ class NewSession extends require( '../_Command' ) {
 			var session = connection.web.engine.modules.sessionmanager.CreateSession();
 			connection.session = session;
 			connection.Send( 'SetSession', {
-				id: session.id
+				id: session.id,
 			} );
 		}
 	}

@@ -45,7 +45,7 @@ class Connection {
 	}
 	
 	SendError( message ) {
-		this.Send( 'error', {
+		this.Send( 'Error', {
 			message: message,
 		});
 	}

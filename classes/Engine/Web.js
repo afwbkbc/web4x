@@ -48,18 +48,23 @@ class Web extends require( './_Module' ) {
 			var path = static_dir + dir;
 			var files = Fs.readdirSync( path );
 			
-			for ( var k in files ) {
-				var file = files[ k ];
-				var file_path = path + '/' + file;
-				
-				if ( Fs.lstatSync( file_path ).isDirectory() ) {
-					scripts = scripts.concat( get_scripts( dir + '/' + file ) );
-				}
-				else {
-					if ( file.substring( file.length - 3, file.length ) == '.js' )
-						scripts.push( dir + '/' + file );
+			var loop_files = ( loop_directories ) => {
+				for ( var k in files ) {
+					var file = files[ k ];
+					var file_path = path + '/' + file;
+					
+					if ( Fs.lstatSync( file_path ).isDirectory() && loop_directories ) {
+						scripts = scripts.concat( get_scripts( dir + '/' + file ) );
+					}
+					else if ( !loop_directories ) {
+						if ( file.substring( file.length - 3, file.length ) == '.js' )
+							scripts.push( dir + '/' + file );
+					}
 				}
 			}
+			loop_files( false );
+			loop_files( true );
+			
 			return scripts;
 		}
 		

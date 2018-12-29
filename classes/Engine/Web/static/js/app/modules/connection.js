@@ -11,6 +11,7 @@ window.App.Extend({
 		
 		OnOpen: function( that ) {
 			window.App.RemoveStatus( 'OFFLINE' );
+			this.reconnect.timeout = null;
 			console.log( 'connected' );
 			if ( this.cb.onopen )
 				this.cb.onopen();
@@ -30,7 +31,12 @@ window.App.Extend({
 		},
 	
 		OnMessage: function( that, e ) {
-			console.log( 'ONMESSAGE', e.data );
+			var data = JSON.parse( e.data );
+			if ( !that.message_handlers[ data.command ] ) {
+				console.log( 'no message handler for "' + data.command + '"' );
+				return;
+			}
+			that.message_handlers[ data.command ].Handle( data.data );
 		},
 		
 		cb: {
@@ -90,6 +96,13 @@ window.App.Extend({
 			command: command,
 			data: data,
 		} ) );
+	},
+	
+	message_handlers: {},
+	
+	AddMessageHandler: function( command, obj ) {
+		obj.app = this;
+		this.message_handlers[ command ] = obj;
 	},
 	
 });

@@ -9,12 +9,19 @@ window.App.Extend({
 		
 		var cookie = $.cookie( 'w4xsid' );
 		if ( !cookie ) {
-			console.log( 'NEWSESSION' );
 			this.SendMessage( 'NewSession' );
 		}
 		else {
-			console.log( 'SESSION', cookie );
+			this.SendMessage( 'SetSession', {
+				id: cookie,
+			});
 		}
+	},
+	
+	SetSession: function( id ) {
+		$.cookie( 'w4xsid', id );
+		this.session.id = id;
+		console.log( 'SESSION', id );
 	},
 	
 	StopSession: function() {
