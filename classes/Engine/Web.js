@@ -1,5 +1,26 @@
 class Web extends require( './_Module' ) {
 	
+	constructor( engine ) {
+		super( engine );
+		
+		const Fs = require( 'fs' );
+		
+		this.commands = {};
+		var command_dir = __dirname + '/Web/Command';
+		var files = Fs.readdirSync( command_dir );
+		
+		for ( var k in files ) {
+			var file = files[ k ];
+			if ( file.substring( file.length - 3, file.length ) == '.js' ) {
+				if ( file[0] != '_' ) { // abstract classes start with _
+					var command = file.substring( 0, file.length - 3 );
+					this.commands[ command ] = new ( require( command_dir + '/' + command ) )( this );
+				}
+			}
+		}
+
+	}
+	
 	Init( done ) {
 		
 		const Twig = require( 'twig' );
@@ -9,7 +30,7 @@ class Web extends require( './_Module' ) {
 		
 		this.app = Express();
 		
-		const wwwroot = __dirname + '/web';
+		const wwwroot = __dirname + '/Web';
 		
 		this.app.set( 'views', wwwroot + '/views' );
 		this.app.set( 'view engine', 'twig' )
@@ -39,10 +60,12 @@ class Web extends require( './_Module' ) {
 	}
 
 	Run( done ) {
+		var that = this;
+		
 		var http_server = this.app.listen( this.engine.options.http.port, () => {
 			
 			const WebSocketServer = require( 'websocket' ).server;
-			const Connection = require( './web/Connection' );
+			const Connection = require( './Web/Connection' );
 			
 			this.ws = new WebSocketServer({
 				httpServer : http_server,
@@ -51,7 +74,7 @@ class Web extends require( './_Module' ) {
 
 			this.ws.on( 'request', ( req ) => {
 				var id = this.connection_id++;
-				var connection = new Connection( this, id, req.accept( this.engine.options.http.ws.protocol, req.origin ) );
+				var connection = new Connection( that, this, id, req.accept( 'web4x', req.origin ) );
 				this.connections[ id ] = connection;
 			});
 			
@@ -60,6 +83,13 @@ class Web extends require( './_Module' ) {
 		
 	}
 	
+	ProcessCommand( connection, command, data ) {
+		if ( !this.commands[ command ] )
+			connection.SendError( 'Invalid command "' + command + '"' );
+		else {
+			this.commands[ command ].Execute( connection, data );
+		}
+	}
 }
 
 module.exports = Web;

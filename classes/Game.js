@@ -4,7 +4,7 @@ class Game extends require( './_Class' ) {
 		super();
 		
 		this.loadOptions({
-			title: 'Unnamed game',
+			
 		}, options );
 	}
 	

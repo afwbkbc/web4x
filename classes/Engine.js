@@ -7,9 +7,6 @@ class Engine extends require( './_Class.js' ) {
 			title: 'web4x - web-based 4x strategy engine',
 			http: {
 				port: 80,
-				ws: {
-					protocol: 'web4x',
-				},
 			},
 		}, options );
 		

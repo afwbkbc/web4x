@@ -1,6 +1,7 @@
 class Connection {
 	
-	constructor( ws, id, connection ) {
+	constructor( web, ws, id, connection ) {
+		this.web = web;
 		this.ws = ws;
 		this.id = id;
 		this.connection = connection;
@@ -9,7 +10,8 @@ class Connection {
 		
 		var _OnMessage = ( message ) => {
 			if ( message.type === 'utf8' ) {
-				console.log( 'ws message' );
+				var message = JSON.parse( message.utf8Data );
+				this.web.ProcessCommand( this, message.command, message.data );
 				//console.log( 'Received Message: ' + message.utf8Data );
 				//connection.sendUTF( message.utf8Data );
 			}
@@ -35,11 +37,17 @@ class Connection {
 		this.ws.Log( '[ws/' + this.id + '] ' + text );
 	}
 	
-	SendData( data ) {
+	Send( command, data ) {
 		this.connection.sendUTF( JSON.stringify( {
-			op: 'data',
+			command: command,
 			data: data,
 		} ) );
+	}
+	
+	SendError( message ) {
+		this.Send( 'error', {
+			message: message,
+		});
 	}
 	
 }

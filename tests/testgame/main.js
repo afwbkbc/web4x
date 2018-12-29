@@ -1,4 +1,4 @@
-const X = require( '../../web4x.js' );
+const X = require( '../../web4x' );
 
 var engine = new X.Engine({
 	http:{
@@ -10,11 +10,13 @@ engine.Init( () => {
 	
 	console.log( 'INIT OK' )
 	
-	var game = new X.Game({
-		title: 'Test Game',
-	});
+	var game = new ( require( './TestGame' )( X ) );
 	
-	engine.SetGame( game );
+	/*var game = new X.Game({
+		title: 'Test Game',
+	});*/
+	
+	//engine.SetGame( game );
 	
 	console.log( 'RUNNING...' );
 	
