@@ -33,7 +33,8 @@ window.App.Extend({
 	
 	StopSession: function() {
 		for ( var k in this.session )
-			this.session[ k ] = null;
+			if ( typeof( this.session[ k ] ) !== 'object' )
+				this.session[ k ] = null;
 	},
 	
 });

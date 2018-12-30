@@ -5,6 +5,7 @@ class Connection {
 		this.ws = ws;
 		this.id = id;
 		this.connection = connection;
+		this.session = null;
 		
 		console.log( 'opening connection' );
 		
@@ -12,8 +13,6 @@ class Connection {
 			if ( message.type === 'utf8' ) {
 				var message = JSON.parse( message.utf8Data );
 				this.web.ProcessCommand( this, message.command, message.data );
-				//console.log( 'Received Message: ' + message.utf8Data );
-				//connection.sendUTF( message.utf8Data );
 			}
 			else if ( message.type === 'binary' ) {
 				console.log( 'ws binary message' );
@@ -24,13 +23,15 @@ class Connection {
 		
 		var _OnClose = () => {
 			console.log( 'closing connection' );
+			if ( this.session ) {
+				this.session.RemoveConnection( this );
+				this.session = null;
+			}
 			this.ws.RemoveConnection( this );
 		}
 
 		this.connection.on( 'message', _OnMessage );
 		this.connection.on( 'close', _OnClose );
-		
-		//this.ws.ReceiveAllData( this );
 	}
 	
 	Log( text ) {

@@ -12,11 +12,10 @@ window.App.Extend({
 		OnOpen: function( that ) {
 			window.App.RemoveStatus( 'OFFLINE' );
 			this.reconnect.timeout = null;
-			console.log( 'connected' );
 			if ( this.cb.onopen )
 				this.cb.onopen();
 		},
-	
+		
 		OnClose: function( that ) {
 			if ( !this.socket ) {
 				console.log( 'not connected' );
@@ -81,7 +80,7 @@ window.App.Extend({
 		var that = this;
 		c.reconnect.timer = setTimeout( function() {
 			c.reconnect.timer = null;
-			that.Connect();
+			that.Connect( c.cb.onopen, c.cb.onclose );
 		}, c.reconnect.timeout );
 		
 	},
