@@ -10,8 +10,10 @@ class Session {
 	}
 	
 	SetPhase( phase ) {
-		// console.log( 'SETPHASE', phase );
+		if ( this.phase )
+			this.phase.RemoveSession( this );
 		this.phase = phase;
+		this.phase.AddSession( this );
 	}
 	
 	AddConnection( connection ) {

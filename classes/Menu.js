@@ -1,11 +1,11 @@
 class Menu extends require( './_Phase' ) {
 	
 	Start( session ) {
-		console.log( 'MENU START', session );
+		console.log( 'MENU START', session.id );
 	}
 	
-	End( session ) {
-		console.log( 'MENU END', session );
+	Stop( session ) {
+		console.log( 'MENU STOP', session.id );
 	}
 	
 }
