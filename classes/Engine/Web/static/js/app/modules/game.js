@@ -3,7 +3,7 @@ window.App.Extend({
 	StartGame() {
 		//console.log( 'START' );
 		this.StartRenderer();
-		this.SendMessage( 'RunPhase' );
+		this.SendMessage( 'Render' );
 	},
 	
 	StopGame() {

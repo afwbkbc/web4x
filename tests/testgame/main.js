@@ -14,13 +14,13 @@ engine.Init( () => {
 		title: 'Test Game',
 	});
 	
-	var menu = new X.Menu({
-		'Host game': () => {
-			console.log( 'HOST GAME' );
-		},
-		'Join game': () => {
-			console.log( 'JOIN GAME' );
-		},
+	var menu = new X.Menu();
+	
+	menu.AddEntry( 'Host game', () => {
+		console.log( 'HOST GAME' );
+	});
+	menu.AddEntry( 'Join game', () => {
+		console.log( 'JOIN GAME' );
 	});
 	
 	game.SetEntryPoint( menu );

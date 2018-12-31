@@ -9,6 +9,7 @@ class _Phase extends require( './_Class' ) {
 	// override these
 	Start( session ) {} // load for session
 	Stop( session ) {} // unload for session
+	Render( connection ) {} // render current state to connection
 	
 	AddSession( session ) {
 		var id = session.id;

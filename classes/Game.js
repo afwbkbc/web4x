@@ -13,6 +13,7 @@ class Game extends require( './_Class' ) {
 	// sets phase such as menu to be run when session begins
 	SetEntryPoint( phase ) {
 		this.entry_point = phase;
+		phase.game = this;
 	}
 	
 }

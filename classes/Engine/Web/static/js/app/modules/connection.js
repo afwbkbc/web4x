@@ -2,6 +2,7 @@ window.App.Extend({
 
 	connection: {
 		reconnect_timeout: 1000,
+		reconnect_timeout_rand: 500, // because
 		reconnect_timeout_max: 10000,
 		socket: null,
 		reconnect: {
@@ -81,7 +82,7 @@ window.App.Extend({
 		c.reconnect.timer = setTimeout( function() {
 			c.reconnect.timer = null;
 			that.Connect( c.cb.onopen, c.cb.onclose );
-		}, c.reconnect.timeout );
+		}, c.reconnect.timeout + Math.random( c.reconnect_timeout_rand ) - c.reconnect_timeout_rand / 2 );
 		
 	},
 	

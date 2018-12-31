@@ -23,6 +23,7 @@ class Engine extends require( './_Class.js' ) {
 	
 	SetGame( game ) {
 		this.game = game;
+		game.engine = this;
 	}
 	
 }

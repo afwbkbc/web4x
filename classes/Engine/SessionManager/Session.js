@@ -9,11 +9,16 @@ class Session {
 		this.connections = {};
 	}
 	
+	// change phase in session ( for all connections )
 	SetPhase( phase ) {
 		if ( this.phase )
 			this.phase.RemoveSession( this );
 		this.phase = phase;
 		this.phase.AddSession( this );
+	}
+	
+	RenderPhase( connection ) {
+		this.phase.Render( connection );
 	}
 	
 	AddConnection( connection ) {
@@ -34,6 +39,11 @@ class Session {
 		delete this.connections[ id ];
 	}
 	
+	Update( callback ) { // updates state on every connection, callback provides connection as parameter
+		for ( var k in this.connections )
+			callback( this.connections[ k ] );
+	}
+
 }
 
 module.exports = Session;
