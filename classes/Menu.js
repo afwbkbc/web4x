@@ -13,26 +13,29 @@ class Menu extends require( './_Phase' ) {
 		});
 	}
 	
-	Start( session ) {
-		console.log( 'MENU START', session.id );
-
-		
+	Start( context ) {
+		context.AddCanvas( 'ui', new this.Canvas( 'fullscreen' ) );
+		console.log( 'MENU START', context.session.id );
 	}
 	
-	Stop( session ) {
-		console.log( 'MENU STOP', session.id );
+	Stop( context ) {
+		console.log( 'MENU STOP', context.session.id );
 	}
 	
-	Render( connection ) {
+	Render( context, connection ) {
 		console.log( 'MENU RENDER', connection.session.id + '/' + connection.id );
 		
 		var r = this.game.engine.modules.renderer;
 		
 		r.Render( connection, () => {
-			r.Quad({
-				coords: [ 10, 10, 80, 80 ],
-				stroke: '#aff',
-				fill: '#466',
+			r.Canvas( context.canvases.ui, () => {
+				
+				r.Quad({
+					coords: [ 10, 10, 80, 80 ],
+					stroke: '#aff',
+					fill: '#466',
+				});
+				
 			});
 		});
 	}

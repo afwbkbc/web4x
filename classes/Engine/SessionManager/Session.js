@@ -6,6 +6,7 @@ class Session {
 		this.manager = manager;
 		this.id = id;
 		this.phase = null;
+		this.phase_context = null;
 		this.connections = {};
 	}
 	
@@ -18,7 +19,7 @@ class Session {
 	}
 	
 	RenderPhase( connection ) {
-		this.phase.Render( connection );
+		this.phase.Render( this.phase_context, connection );
 	}
 	
 	AddConnection( connection ) {
@@ -28,6 +29,8 @@ class Session {
 			return;
 		}
 		this.connections[ id ] = connection;
+		if ( this.phase )
+			this.phase._RenderStart( this.phase_context, this.connections[ id ] );
 	}
 	
 	RemoveConnection( connection ) {
@@ -36,6 +39,8 @@ class Session {
 			console.log( 'connection not found' );
 			return;
 		}
+		if ( this.phase )
+			this.phase._RenderStop( this.phase_context, this.connections[ id ] );
 		delete this.connections[ id ];
 	}
 	

@@ -4,6 +4,7 @@ class Renderer extends require( './_Module' ) {
 		super( engine );
 		
 		this.connection = null;
+		this.canvas = null;
 	}
 	
 	// entry function, selects connection for rendering, renders inside callback
@@ -15,6 +16,17 @@ class Renderer extends require( './_Module' ) {
 		this.connection = connection;
 		callback();
 		this.connection = null;
+	}
+	
+	// entry function, selects canvas for rendering, renders inside callback
+	Canvas( canvas, callback ) {
+		if ( this.canvas ) {
+			console.log( 'recursive Canvas() detected' );
+			return;
+		}
+		this.canvas = canvas.id;
+		callback();
+		this.canvas = null;
 	}
 	
 	//// drawing API ////
@@ -39,6 +51,7 @@ class Renderer extends require( './_Module' ) {
 	// main draw function
 	Draw( shape, parameters ) {
 		this.connection.Send( 'Render', {
+			canvas: this.canvas,
 			shape: shape,
 			parameters: parameters,
 		});

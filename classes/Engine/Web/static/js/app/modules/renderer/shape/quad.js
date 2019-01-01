@@ -2,8 +2,6 @@ window.App.AddRendererShape( 'quad', {
 	
 	Draw( ctx, p ) {
 		
-		console.log( 'DRAW', p );
-		
 		var c = p.coords;
 		
 		if ( p.fill ) {
