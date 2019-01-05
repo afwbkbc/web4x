@@ -14,6 +14,7 @@ window.App.Extend({
 	},
 	
 	AddRendererShape: function( shape, obj ) {
+		obj.app = this;
 		this.renderer.shapes[ shape ] = obj;
 	},
 	
@@ -23,9 +24,10 @@ window.App.Extend({
 			return;
 		}
 		var canvas = $( '<canvas id="viewport' + id + '" width="' + width + '" height="' + height + '"></canvas>' ).appendTo( $( 'body' ) );
+		var ctx = canvas[ 0 ].getContext( '2d' );
 		this.renderer.canvases[ id ] = {
 			canvas: canvas,
-			ctx: canvas[ 0 ].getContext( '2d' ),
+			ctx: ctx,
 		};
 	},
 	

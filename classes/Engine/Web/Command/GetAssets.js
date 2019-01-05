@@ -11,6 +11,7 @@ class GetAssets extends require( '../_Command' ) {
 				}
 				connection.Send( 'AssetData', {
 					id: asset.id,
+					type: asset.type,
 					size: asset.data.length,
 				});
 				connection.SendData( asset.data );

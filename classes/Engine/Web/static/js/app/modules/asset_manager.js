@@ -3,6 +3,7 @@ window.App.Extend({
 	assets: {
 		loaded: {},
 		toload: {},
+		toinit: {},
 		data: {},
 	},
 	
@@ -31,6 +32,7 @@ window.App.Extend({
 	ResetAssets: function() {
 		for ( var k in this.assets )
 			this.assets[ k ] = {};
+		this.ClearDataMessageHandler();
 	},
 	
 	AssetData: function( data ) {
@@ -41,7 +43,7 @@ window.App.Extend({
 		});
 	},
 	
-	_OnAssetData( data ) {
+	_OnAssetData: function( data ) {
 		if ( data.size > this.assets.data.size ) {
 			console.log( 'excessive asset data' );
 			return;
@@ -52,17 +54,49 @@ window.App.Extend({
 		}
 		this.ClearDataMessageHandler();
 		var id = this.assets.data.id;
-		this.assets.data = {};
 		if ( this.assets.loaded[ id ] ) {
 			console.log( 'asset already loaded' );
 			return;
 		}
-		this.assets.loaded[ id ] = data;
+		this.assets.loaded[ id ] = this.assets.data;
+		this.assets.data = {};
+		this.assets.loaded[ id ].data = data;
 		delete this.assets.toload[ id ];
-		if ( Object.keys( this.assets.toload ).length == 0 ) {
-			// all required assets loaded
-			this.StartPhase();
+		this.assets.toinit[ id ] = true;
+		var that = this;
+		this._InitAsset( this.assets.loaded[ id ], function() {
+			if ( Object.keys( that.assets.toinit ).length == 0 ) {
+				// all required assets loaded
+				that.StartPhase();
+			}
+		});
+	},
+	
+	_InitAsset: function( asset, callback ) {
+		var id = asset.id;
+		
+		var that = this;
+		var done = function() {
+			console.log( asset );
+			delete that.assets.toinit[ id ];
+			return callback();
 		}
+		
+		switch ( asset.type ) {
+			case 'image': {
+				asset.image = new Image();
+				asset.image.onload = done;
+				asset.image.src = URL.createObjectURL( asset.data );
+				break;
+			}
+			default:
+				console.log( 'unknown asset type "' + asset.type + '"' );
+				return;
+		}
+	},
+	
+	GetAsset( id ) {
+		return this.assets.loaded[ id ];
 	},
 	
 });

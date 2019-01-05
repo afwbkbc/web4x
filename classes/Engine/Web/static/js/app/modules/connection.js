@@ -133,10 +133,6 @@ window.App.Extend({
 	},
 	
 	ClearDataMessageHandler: function() {
-		if ( !this.connection.cb.ondata ) {
-			console.log( 'data message handler already cleared' );
-			return;
-		}
 		this.connection.cb.ondata = null;
 	},
 	

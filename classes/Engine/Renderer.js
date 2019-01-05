@@ -25,9 +25,10 @@ class Renderer extends require( './_Module' ) {
 	 * !!!
 	 * in annotations below square brackets ( [] ) mean parameter is optional
 	 * some common parameters:
-	 *   "coords" is vec4 ( [x1,y1,x2,y2] ), x clamped between 0 and 1919, y between 0 and 1079 ( TODO: aspect correction, different aspect ratios handling, responsibility )
-	 *   "fill" is fill color, if present shape will be filled with it, non-filled otherwise
-	 *   "stroke" is border color, if present shape will get border, borderless otherwise
+	 *   coords: vec4 ( [x1,y1,x2,y2] ), x clamped between 0 and 1919, y between 0 and 1079 ( TODO: aspect correction, different aspect ratios handling, responsibility )
+	 *   fill: fill color like "#aaa", if present shape will be filled with it, non-filled otherwise
+	 *   stroke: border color, if present shape will get border, borderless otherwise
+	 *   asset_id: id of Asset ( typically Image )
 	 * !!!
 	 */
 	
@@ -37,14 +38,27 @@ class Renderer extends require( './_Module' ) {
 		this.Draw( 'quad', p );
 	}
 	
+	// draws an image
+	// { coords asset }
+	Image( p ) {
+		this.Draw( 'image', p );
+	}
+	
 	//// drawing API end ////
 	
 	// main draw function
 	Draw( shape, parameters ) {
+		var p = Object.assign( {}, parameters );
+		
+		// normalize coords
+		p.coords = Object.assign( {}, p.coords );
+		p.coords[ 2 ] -= p.coords[ 0 ];
+		p.coords[ 3 ] -= p.coords[ 1 ];
+		
 		this.connection.Send( 'Render', {
 			canvas: this.canvas,
 			shape: shape,
-			parameters: parameters,
+			parameters: p,
 		});
 	}
 }

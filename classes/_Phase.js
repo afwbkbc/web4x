@@ -10,6 +10,7 @@ class _Phase extends require( './_Class' ) {
 		
 		this.contexts = {};
 		this.assets = {};
+		this.asset_ids = {};
 	}
 	
 	// override these
@@ -21,13 +22,13 @@ class _Phase extends require( './_Class' ) {
 	
 	_RenderStart( context, connection ) {
 		context.LoadCanvases( connection );
-		context.LoadAssets( connection, Object.keys( this.assets ) );
+		context.LoadAssets( connection, this.asset_ids );
 		this.RenderStart( context, connection );
 	}
 	
 	_RenderStop( context, connection ) {
 		this.RenderStop( context, connection );
-		context.UnloadAssets( connection, Object.keys( this.assets ) );
+		context.UnloadAssets( connection, this.asset_ids );
 		context.UnloadCanvases( connection );
 	}
 	
@@ -65,7 +66,20 @@ class _Phase extends require( './_Class' ) {
 			console.log( 'duplicate asset' );
 			return;
 		}
+		if ( this.asset_ids[ asset.name ] ) {
+			console.log( 'duplicate asset id' );
+			return;
+		}
 		this.assets[ asset.id ] = asset;
+		this.asset_ids[ asset.name ] = asset.id;
+	}
+	
+	GetAsset( name ) {
+		if ( !this.asset_ids[ name ] ) {
+			console.log( 'asset "' + name +'" does not exist' );
+			return;
+		}
+		return this.assets[ this.asset_ids[ name ] ];
 	}
 	
 }
