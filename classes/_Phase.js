@@ -1,7 +1,9 @@
 class _Phase extends require( './_Class' ) {
 	
-	constructor() {
+	constructor( name ) {
 		super();
+		
+		this.name = name;
 		
 		this.PhaseSessionContext = require( './Phase/PhaseSessionContext' );
 		this.Canvas = require( './Engine/Renderer/Canvas' );

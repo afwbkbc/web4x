@@ -7,26 +7,17 @@ class Renderer extends require( './_Module' ) {
 		this.canvas = null;
 	}
 	
-	// entry function, selects connection for rendering, renders inside callback
-	Render( connection, callback ) {
+	// entry function, selects connection and canvas for rendering, renders inside callback
+	Render( connection, canvas, callback ) {
 		if ( this.connection ) {
 			console.log( 'recursive Render() detected' );
 			return;
 		}
 		this.connection = connection;
-		callback();
-		this.connection = null;
-	}
-	
-	// entry function, selects canvas for rendering, renders inside callback
-	Canvas( canvas, callback ) {
-		if ( this.canvas ) {
-			console.log( 'recursive Canvas() detected' );
-			return;
-		}
 		this.canvas = canvas.id;
 		callback();
 		this.canvas = null;
+		this.connection = null;
 	}
 	
 	//// drawing API ////

@@ -30,7 +30,7 @@ window.App.Extend({
 	
 	ResetAssets: function() {
 		for ( var k in this.assets )
-			this.assets[ k ] = null;
+			this.assets[ k ] = {};
 	},
 	
 	AssetData: function( data ) {
@@ -52,6 +52,7 @@ window.App.Extend({
 		}
 		this.ClearDataMessageHandler();
 		var id = this.assets.data.id;
+		this.assets.data = {};
 		if ( this.assets.loaded[ id ] ) {
 			console.log( 'asset already loaded' );
 			return;

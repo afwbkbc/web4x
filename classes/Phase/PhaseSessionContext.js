@@ -47,6 +47,17 @@ class PhaseSessionContext {
 		});
 	}
 	
+	Render( connection, canvas_id, callback ) {
+		if ( !this.canvases[ canvas_id ] ) {
+			console.log( 'invalid/missing canvas "' + canvas_id + '"' );
+			return;
+		}
+		var r = this.phase.game.engine.modules.renderer;
+		r.Render( connection, this.canvases[ canvas_id ], () => {
+			callback( r );
+		});
+	}
+	
 	destructor() {
 		for ( var k in this.canvases )
 			this.canvases[ k ].destructor();

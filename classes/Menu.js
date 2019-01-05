@@ -1,9 +1,10 @@
 class Menu extends require( './_Phase' ) {
 	
-	constructor() {
-		super();
+	constructor( name ) {
+		super( 'menu/' + name );
 		
 		this.entries = [];
+		this.background = null;
 	}
 	
 	AddEntry( name, callback ) {
@@ -11,6 +12,10 @@ class Menu extends require( './_Phase' ) {
 			title: name,
 			callback: callback,
 		});
+	}
+	
+	SetBackground( asset_name ) {
+		this.background = asset_name;
 	}
 	
 	Start( ctx ) {
@@ -25,18 +30,14 @@ class Menu extends require( './_Phase' ) {
 	Render( ctx, connection ) {
 		console.log( 'MENU RENDER', connection.session.id + '/' + connection.id );
 		
-		var r = this.game.engine.modules.renderer;
-		
-		r.Render( connection, () => {
-			r.Canvas( ctx.canvases.ui, () => {
-				
-				r.Quad({
-					coords: [ 10, 10, 80, 80 ],
-					stroke: '#aff',
-					fill: '#466',
-				});
-				
+		ctx.Render( connection, 'ui', ( r ) => {
+			
+			r.Quad({
+				coords: [ 10, 10, 80, 80 ],
+				stroke: '#aff',
+				fill: '#466',
 			});
+			
 		});
 	}
 	

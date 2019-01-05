@@ -14,11 +14,11 @@ engine.Init( () => {
 		title: 'Test Game',
 	});
 	
-	var menu = new X.Menu();
+	var menu = new X.Menu( 'main_menu' );
 	{
 		var background = new X.Image( 'main_menu_bg', __dirname + '/assets/images/main_menu_bg.png' );
+		menu.SetBackground( 'main_menu_bg' );
 		menu.AddAsset( background );
-		
 		
 		menu.AddEntry( 'Host game', () => {
 			console.log( 'HOST GAME' );
