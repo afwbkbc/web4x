@@ -15,14 +15,18 @@ engine.Init( () => {
 	});
 	
 	var menu = new X.Menu();
-	
-	menu.AddEntry( 'Host game', () => {
-		console.log( 'HOST GAME' );
-	});
-	menu.AddEntry( 'Join game', () => {
-		console.log( 'JOIN GAME' );
-	});
-	
+	{
+		var background = new X.Image( 'main_menu_bg', __dirname + '/assets/images/main_menu_bg.png' );
+		menu.AddAsset( background );
+		
+		
+		menu.AddEntry( 'Host game', () => {
+			console.log( 'HOST GAME' );
+		});
+		menu.AddEntry( 'Join game', () => {
+			console.log( 'JOIN GAME' );
+		});
+	}
 	game.SetEntryPoint( menu );
 	
 	engine.SetGame( game );

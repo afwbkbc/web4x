@@ -1,4 +1,4 @@
-class _Session extends require( '../_Command' ) {
+class Session extends require( '../_Command' ) {
 	
 	Execute( connection, data ) {
 		if ( connection.session )
@@ -15,9 +15,21 @@ class _Session extends require( '../_Command' ) {
 			connection.Send( 'SetSession', {
 				id: session.id,
 			} );
+			if ( !session.phase ) {
+				var game = connection.web.engine.game;
+				if ( !game ) {
+					console.log( 'no game defined' );
+					return;
+				}
+				if ( !game.entry_point ) {
+					console.log( 'no entry point defined' );
+					return;
+				}
+				session.SetPhase( game.entry_point );
+			}
 		}
 	}
 	
 }
 
-module.exports = _Session;
+module.exports = Session;

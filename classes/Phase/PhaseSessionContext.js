@@ -35,6 +35,18 @@ class PhaseSessionContext {
 		}
 	}
 	
+	LoadAssets( connection, assets ) {
+		connection.Send( 'LoadAssets', {
+			assets: assets,
+		});
+	}
+	
+	UnloadAssets( connection, assets ) {
+		connection.Send( 'UnloadAssets', {
+			assets: assets,
+		});
+	}
+	
 	destructor() {
 		for ( var k in this.canvases )
 			this.canvases[ k ].destructor();

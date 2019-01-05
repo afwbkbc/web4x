@@ -13,22 +13,22 @@ class Menu extends require( './_Phase' ) {
 		});
 	}
 	
-	Start( context ) {
-		context.AddCanvas( 'ui', new this.Canvas( 'fullscreen' ) );
-		console.log( 'MENU START', context.session.id );
+	Start( ctx ) {
+		ctx.AddCanvas( 'ui', new this.Canvas( 'fullscreen' ) );
+		console.log( 'MENU START', ctx.session.id );
 	}
 	
-	Stop( context ) {
-		console.log( 'MENU STOP', context.session.id );
+	Stop( ctx ) {
+		console.log( 'MENU STOP', ctx.session.id );
 	}
 	
-	Render( context, connection ) {
+	Render( ctx, connection ) {
 		console.log( 'MENU RENDER', connection.session.id + '/' + connection.id );
 		
 		var r = this.game.engine.modules.renderer;
 		
 		r.Render( connection, () => {
-			r.Canvas( context.canvases.ui, () => {
+			r.Canvas( ctx.canvases.ui, () => {
 				
 				r.Quad({
 					coords: [ 10, 10, 80, 80 ],

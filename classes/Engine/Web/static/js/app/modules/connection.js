@@ -31,17 +31,36 @@ window.App.Extend({
 		},
 	
 		OnMessage: function( that, e ) {
-			var data = JSON.parse( e.data );
-			if ( !that.message_handlers[ data.command ] ) {
-				console.log( 'no message handler for "' + data.command + '"' );
-				return;
+			var datatype = e.data.constructor.name;
+			switch ( datatype ) {
+				case 'String': {
+					var data = JSON.parse( e.data );
+					if ( !that.message_handlers[ data.command ] ) {
+						console.log( 'no message handler for "' + data.command + '"' );
+						return;
+					}
+					that.message_handlers[ data.command ].Handle( data.data );
+					break;
+				}
+				case 'Blob': {
+					if ( !that.connection.cb.ondata ) {
+						console.log( 'no data message handler' );
+						return;
+					}
+					that.connection.cb.ondata( e.data );
+					break;
+				}
+				default: {
+					console.log( 'unknown message data type "' + datatype + '"', e );
+					return;
+				}
 			}
-			that.message_handlers[ data.command ].Handle( data.data );
 		},
 		
 		cb: {
 			onopen: null,
 			onclose: null,
+			ondata: null,
 		},
 	},
 	
@@ -103,6 +122,22 @@ window.App.Extend({
 	AddMessageHandler: function( command, obj ) {
 		obj.app = this;
 		this.message_handlers[ command ] = obj;
+	},
+	
+	SetDataMessageHandler: function( callback ) {
+		if ( this.connection.cb.ondata ) {
+			console.log( 'data message handler already set' );
+			return;
+		}
+		this.connection.cb.ondata = callback;
+	},
+	
+	ClearDataMessageHandler: function() {
+		if ( !this.connection.cb.ondata ) {
+			console.log( 'data message handler already cleared' );
+			return;
+		}
+		this.connection.cb.ondata = null;
 	},
 	
 });

@@ -45,6 +45,10 @@ class Connection {
 		} ) );
 	}
 	
+	SendData( buffer ) {
+		this.connection.sendBytes( buffer );
+	}
+	
 	SendError( message ) {
 		this.Send( 'Error', {
 			message: message,

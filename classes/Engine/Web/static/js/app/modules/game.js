@@ -1,14 +1,22 @@
 window.App.Extend({
 	
-	StartGame() {
-		//console.log( 'START' );
+	StartGame: function() {
 		this.StartRenderer();
-		this.SendMessage( 'Render' );
+		this.StartSession();
 	},
 	
-	StopGame() {
-		//console.log( 'STOP' );
+	StopGame: function() {
+		this.ResetAssets();
+		this.StopSession();
 		this.StopRenderer();
 	},
 	
+	StartPhase: function() {
+		console.log( 'START' );
+		this.SendMessage( 'Render' );
+	},
+	
+	StopPhase: function() {
+		console.log( 'STOP' );
+	},
 });
