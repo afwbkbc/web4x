@@ -3,6 +3,8 @@ class Engine extends require( './_Class.js' ) {
 	constructor( options ) {
 		super();
 		
+		this.loadModules();
+		
 		this.loadOptions( {
 			title: 'web4x - web-based 4x strategy engine',
 			http: {

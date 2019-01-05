@@ -77,7 +77,6 @@ window.App.Extend({
 		
 		var that = this;
 		var done = function() {
-			console.log( asset );
 			delete that.assets.toinit[ id ];
 			return callback();
 		}

@@ -12,28 +12,55 @@ engine.Init( () => {
 		title: 'Test Game',
 	});
 	{
+		
 		var menu = new X.UI( 'main_menu' );
 		{
-			var background = new X.Image( 'main_menu_bg', __dirname + '/assets/images/main_menu_bg.png' );
-			menu.SetBackground( 'main_menu_bg' );
-			menu.AddAsset( background );
+			menu.AddAsset( new X.Asset.Image( 'main_menu_bg', __dirname + '/assets/images/main_menu_bg.png' ) );
+			menu.AddChild( new X.UI.Image({
+				id: 'main_menu_bg',
+				coords: [ 0, 0, 1919, 1079 ],
+			}));
 			
-			var block = new X.UIBlock({
+			var block = new X.UI.Column({
 				coords: [ 1500, 400, 1760, 860 ],
 			});
 			{
-				block.AddButton( 'Host game', () => {
-					console.log( 'HOST GAME PRESSED' );
-				});
-				block.AddButton( 'Join game', () => {
-					console.log( 'JOIN GAME PRESSED' );
-				});
+				block.AddChild( new X.UI.Button({
+					label: 'Host game',
+					callback: () => {
+						console.log( 'HOST GAME PRESSED' );
+					},
+				}));
+				block.AddChild( new X.UI.Button({
+					label: 'Join game',
+					callback: () => {
+						console.log( 'JOIN GAME PRESSED' );
+					},
+				}));
+				block.AddChild( new X.UI.Button({
+					label: 'Options',
+					callback: () => {
+						console.log( 'OPTIONS PRESSED' );
+					},
+				}));
+				block.AddChild( new X.UI.Button({
+					label: 'Credits',
+					callback: () => {
+						console.log( 'CREDITS PRESSED' );
+					},
+				}));
+				block.AddChild( new X.UI.Button({
+					label: 'Quit',
+					callback: () => {
+						console.log( 'QUIT PRESSED' );
+					},
+				}));
 			}
-			menu.AddBlock( block );
+			menu.AddChild( block );
 		
-			var style = new X.UIStyle({
-				menu_block_backgroundcolor: '#000204',
-				menu_block_bordercolor: '#ddddff',
+			var style = new X.UI.Style({
+				block_backgroundcolor: '#000204',
+				block_bordercolor: '#ddddff',
 			});
 			menu.SetStyle( style );
 		}

@@ -5,6 +5,8 @@ class Renderer extends require( './_Module' ) {
 		
 		this.connection = null;
 		this.canvas = null;
+		this.default_style = new ( require( '../UI/Style' ) );
+		this.style = this.default_style;
 	}
 	
 	// entry function, selects connection and canvas for rendering, renders inside callback
@@ -18,6 +20,13 @@ class Renderer extends require( './_Module' ) {
 		callback();
 		this.canvas = null;
 		this.connection = null;
+	}
+	
+	// style wrapper
+	Style( style, callback ) {
+		this.style = style;
+		callback();
+		this.style = this.default_style;
 	}
 	
 	//// drawing API ////
@@ -42,6 +51,12 @@ class Renderer extends require( './_Module' ) {
 	// { coords asset }
 	Image( p ) {
 		this.Draw( 'image', p );
+	}
+	
+	// draws text
+	// { coords label [fill] [stroke] }
+	Text( p ) {
+		this.Draw( 'text', p );
 	}
 	
 	//// drawing API end ////

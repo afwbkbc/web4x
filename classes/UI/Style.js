@@ -1,10 +1,15 @@
 // all available styles and their defaults
 const G_styles = {
-	menu_block_backgroundcolor: '#ccc',
-	menu_block_bordercolor: '#444',
+	block_backgroundcolor: '#ccc',
+	block_bordercolor: '#444',
+	button_backgroundcolor: '#aaa',
+	button_bordercolor: '#444',
+	button_textcolor: '#333',
+	button_margin_x: 16,
+	button_margin_y: 12,
 };
 
-class UIStyle {
+class Style {
 	
 	constructor( styles ) {
 		if ( styles ) {
@@ -23,4 +28,4 @@ class UIStyle {
 	
 }
 
-module.exports = UIStyle;
+module.exports = Style;

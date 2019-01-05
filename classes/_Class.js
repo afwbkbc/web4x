@@ -6,6 +6,9 @@ class _Class {
 		
 		this.class_name = this.constructor.name;
 		
+	}
+	
+	loadModules() {
 		this.modules = {};
 
 		// load js modules into this.modules if corresponding directory exists

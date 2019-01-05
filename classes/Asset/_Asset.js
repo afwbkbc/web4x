@@ -1,4 +1,4 @@
-class _Asset extends require( './_Phase' ) {
+class _Asset extends require( '../_Phase' ) {
 	
 	constructor( type, name, file_path ) {
 		super();

@@ -3,13 +3,8 @@ class UI extends require( './_Phase' ) {
 	constructor( name ) {
 		super( 'ui/' + name );
 		
-		this.background = null;
-		this.blocks = [];
-		this.style = new ( require( './UIStyle' ) );
-	}
-	
-	SetBackground( asset_name ) {
-		this.background = asset_name;
+		this.children = [];
+		this.style = new ( require( './UI/Style' ) );
 	}
 	
 	Start( ctx ) {
@@ -26,42 +21,28 @@ class UI extends require( './_Phase' ) {
 		
 		ctx.Render( connection, 'ui', ( r ) => {
 			
-			if ( this.background ) {
-				var background = this.GetAsset( this.background );
-				if ( !background ) {
-					console.log( 'missing background asset' );
-					return;
+			r.Style( this.style, () => {
+				
+				for ( var k in this.children ) {
+					var m = {};
+					
+					this.children[ k ].Render( r, m );
 				}
-				r.Image({
-					coords: [ 0, 0, 1919, 1079 ],
-					id: background.id,
-				});
-			}
-			
-			for ( var k in this.blocks ) {
-				var block = this.blocks[ k ];
-				var c = block.options.coords;
 				
-				r.Quad({
-					coords: block.options.coords,
-					stroke: this.style.menu_block_bordercolor,
-					fill: this.style.menu_block_backgroundcolor,
-				});
-				
-				console.log( block );
-			}
-			
-			
+			});
 		});
 	}
 	
-	AddBlock( block ) {
-		this.blocks.push( block );
+	AddChild( child ) {
+		child.SetUI( this );
+		this.children.push( child );
 	}
 	
 	SetStyle( style ) {
 		this.style = style;
 	}
 }
+
+require( './_util' ).loadSubclasses( UI );
 
 module.exports = UI;
