@@ -14,6 +14,7 @@ engine.Init( () => {
 	
 	var phases = {
 		main_menu: new ( require( './classes/ui/main_menu' )( X ) ),
+		console: new X.Util.Console(),
 	};
 	
 	game.SetPhases( phases );
@@ -21,6 +22,7 @@ engine.Init( () => {
 	game.Start( ( session ) => {
 		
 		session.EnterPhase( phases.main_menu );
+		session.EnterPhase( phases.console );
 		
 	});
 	

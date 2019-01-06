@@ -2,23 +2,22 @@ window.App.Extend({
 	
 	assets: {
 		loaded: {},
-		toload: {},
 		toinit: {},
 		data: {},
 	},
 	
 	LoadAssets: function( assets ) {
+		var toload = [];
 		for ( var k in assets ) {
 			var asset = assets[ k ];
 			if ( this.assets.loaded[ asset ] )
 				continue;
-			this.assets.toload[ asset ] = null;
+			toload.push( asset );
 		}
 		// TODO: client-side caching
-		var toload_k = Object.keys( this.assets.toload );
-		if ( toload_k.length > 0 ) {
+		if ( toload.length > 0 ) {
 			this.SendMessage( 'GetAssets', {
-				assets: toload_k,
+				assets: toload,
 			});
 		}
 		else
@@ -61,7 +60,6 @@ window.App.Extend({
 		this.assets.loaded[ id ] = this.assets.data;
 		this.assets.data = {};
 		this.assets.loaded[ id ].data = data;
-		delete this.assets.toload[ id ];
 		this.assets.toinit[ id ] = true;
 		var that = this;
 		this._InitAsset( this.assets.loaded[ id ], function() {
