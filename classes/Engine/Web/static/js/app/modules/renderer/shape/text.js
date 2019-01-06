@@ -4,7 +4,7 @@ window.App.AddRendererShape( 'text', {
 		
 		var c = p.coords;
 		
-		ctx.font = '30px Arial Bold';
+		ctx.font = p.font;
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle'; 		
 		

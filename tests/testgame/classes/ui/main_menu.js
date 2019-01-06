@@ -22,8 +22,17 @@ module.exports = ( X ) => {
 					coords: [ 0, 0, 1919, 1079 ],
 				}));
 				
+				this.AddChild( new X.UI.Label({
+					label: 'Test game',
+					style: new X.UI.Style({
+						font: '80px Arial Bold',
+						textcolor: 'white',
+					}),
+					coords: [ 1200, 60, 1680, 340 ],
+				}));
+				
 				var block = new X.UI.Column({
-					coords: [ 1500, 400, 1760, 860 ],
+					coords: [ 1500, 460, 1760, 920 ],
 				});
 				{
 					block.AddChild( new X.UI.Button({

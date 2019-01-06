@@ -2,7 +2,11 @@ class Button extends require( './_UIElement' ) {
 
 	Render( r, m ) {
 		
-		var c = this.GetCoords( r, m );
+		var c = Object.assign( {}, m.area );
+		c[ 0 ] += r.style.button_margin_x * ( m.first_x ? 1 : 0.5 );
+		c[ 1 ] += r.style.button_margin_y * ( m.first_y ? 1 : 0.5 );
+		c[ 2 ] -= r.style.button_margin_x * ( m.last_x ? 1 : 0.5 );
+		c[ 3 ] -= r.style.button_margin_y * ( m.last_y ? 1 : 0.5 );
 		
 		r.Quad({
 			coords: c,
@@ -15,6 +19,7 @@ class Button extends require( './_UIElement' ) {
 			coords: c,
 			text: this.options.label,
 			fill: r.style.button_textcolor,
+			font: r.style.button_font,
 			opacity: r.style.button_opacity,
 		});
 		

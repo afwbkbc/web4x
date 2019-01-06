@@ -6,10 +6,10 @@ class _Block extends require( './_UIElement' ) {
 		this.tilemode = null;
 	}
 	
-	Render( r, area ) {
+	Render( r, m ) {
 		
 		r.Quad({
-			coords: this.options.coords,
+			coords: m.area,
 			stroke: r.style.block_bordercolor,
 			fill: r.style.block_backgroundcolor,
 		});
@@ -17,10 +17,10 @@ class _Block extends require( './_UIElement' ) {
 		if ( this.children.length > 0 ) {
 		
 			// align children in grid
-			var xfrom = this.options.coords[ 0 ];
-			var yfrom = this.options.coords[ 1 ];
-			var xto = this.options.coords[ 2 ];
-			var yto = this.options.coords[ 3 ];
+			var xfrom = m.area[ 0 ];
+			var yfrom = m.area[ 1 ];
+			var xto = m.area[ 2 ];
+			var yto = m.area[ 3 ];
 			var xspace = xto - xfrom;
 			var yspace = yto - yfrom;
 			

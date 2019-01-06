@@ -22,10 +22,12 @@ class UI extends require( './_Phase' ) {
 		ctx.Render( connection, 'ui', ( r ) => {
 			
 			for ( var k in this.children ) {
-				var m = {};
-					
 				var child = this.children[ k ];
 				
+				var m = {
+					area: child.options.coords,
+				};
+					
 				r.Style( child.style, () => {
 					
 					child.Render( r, m );
