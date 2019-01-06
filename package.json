@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/afwbkbc/web4x/issues"
   },
-  "homepage": "https://github.com/afwbkbc/web4x#readme"
+  "homepage": "https://github.com/afwbkbc/web4x#readme",
+  "dependencies": {
+    "deepmerge": "^3.0.0",
+    "express": "^4.16.4",
+    "md5": "^2.2.1",
+    "twig": "^1.12.0",
+    "websocket": "^1.0.28"
+  }
 }
