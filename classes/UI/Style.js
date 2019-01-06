@@ -5,6 +5,7 @@ const G_styles = {
 	button_backgroundcolor: '#aaa',
 	button_bordercolor: '#444',
 	button_textcolor: '#333',
+	button_opacity: 1,
 	button_margin_x: 16,
 	button_margin_y: 12,
 };
@@ -12,8 +13,11 @@ const G_styles = {
 class Style {
 	
 	constructor( styles ) {
+		this.custom = styles ? styles : {};
 		if ( styles ) {
 			for ( var k in styles ) {
+				if ( k == 'custom' )
+					continue;
 				if ( !G_styles[ k ] ) {
 					console.log( 'invalid style "' + k + '"' );
 					continue;

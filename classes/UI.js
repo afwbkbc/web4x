@@ -21,15 +21,18 @@ class UI extends require( './_Phase' ) {
 		
 		ctx.Render( connection, 'ui', ( r ) => {
 			
-			r.Style( this.style, () => {
-				
-				for ( var k in this.children ) {
-					var m = {};
+			for ( var k in this.children ) {
+				var m = {};
 					
-					this.children[ k ].Render( r, m );
-				}
+				var child = this.children[ k ];
 				
-			});
+				r.Style( child.style, () => {
+					
+					child.Render( r, m );
+				
+				});
+			}
+				
 		});
 	}
 	

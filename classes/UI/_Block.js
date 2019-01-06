@@ -57,7 +57,12 @@ class _Block extends require( './_UIElement' ) {
 					last_x: x == xto - xstep,
 					last_y: y == yto - ystep,
 				};
-				this.children[ k ].Render( r, m );
+				
+				var child = this.children[ k ];
+				
+				r.Style( child.style, () => {
+					child.Render( r, m );
+				});
 				
 				x += xstep;
 				if ( x >= xto ) {

@@ -5,6 +5,17 @@ module.exports = ( X ) => {
 		constructor() {
 			super( 'main_menu' );
 			{
+				
+				var style = new X.UI.Style({
+					block_backgroundcolor: '#000204',
+					block_bordercolor: '#ddddff',
+					button_backgroundcolor: '#090709',
+					button_bordercolor: '#eeeeee',
+					button_textcolor: 'white',
+					button_opacity: 0.7,
+				});
+				this.SetStyle( style );
+				
 				this.AddAsset( new X.Asset.Image( 'main_menu_bg', __dirname + '/../../assets/images/main_menu_bg.png' ) );
 				this.AddChild( new X.UI.Image({
 					id: 'main_menu_bg',
@@ -17,30 +28,45 @@ module.exports = ( X ) => {
 				{
 					block.AddChild( new X.UI.Button({
 						label: 'Host game',
+						style: new X.UI.Style({
+							button_backgroundcolor: '#061708',
+						}),
 						callback: () => {
 							console.log( 'HOST GAME PRESSED' );
 						},
 					}));
 					block.AddChild( new X.UI.Button({
 						label: 'Join game',
+						style: new X.UI.Style({
+							button_backgroundcolor: '#061708',
+						}),
 						callback: () => {
 							console.log( 'JOIN GAME PRESSED' );
 						},
 					}));
 					block.AddChild( new X.UI.Button({
 						label: 'Options',
+						style: new X.UI.Style({
+							button_backgroundcolor: '#121004',
+						}),
 						callback: () => {
 							console.log( 'OPTIONS PRESSED' );
 						},
 					}));
 					block.AddChild( new X.UI.Button({
 						label: 'Credits',
+						style: new X.UI.Style({
+							button_backgroundcolor: '#0a0a0a',
+						}),
 						callback: () => {
 							console.log( 'CREDITS PRESSED' );
 						},
 					}));
 					block.AddChild( new X.UI.Button({
 						label: 'Quit',
+						style: new X.UI.Style({
+							button_backgroundcolor: '#170808',
+						}),
 						callback: () => {
 							console.log( 'QUIT PRESSED' );
 						},
@@ -48,11 +74,6 @@ module.exports = ( X ) => {
 				}
 				this.AddChild( block );
 				
-				var style = new X.UI.Style({
-					block_backgroundcolor: '#000204',
-					block_bordercolor: '#ddddff',
-				});
-				this.SetStyle( style );
 			}
 		}
 		

@@ -2,6 +2,9 @@ class _UIElement {
 
 	constructor( options ) {
 		this.options = options ? options : {};
+		
+		this.Style = require( './Style' );
+		
 		this.children = [];
 		this.ui = null;
 	}
@@ -22,8 +25,25 @@ class _UIElement {
 	
 	SetUI( ui ) {
 		this.ui = ui;
-		for ( var k in this.children )
-			this.children[ k ].SetUI( ui );
+		if ( !this.style )
+			this.SetStyle( this.ui.style );
+		for ( var k in this.children ) {
+			var child = this.children[ k ];
+			child.SetStyle( this.style );
+			child.SetUI( ui );
+		}
+	}
+	
+	SetStyle( style ) {
+		if ( this.options.style ) {
+			//console.log( 'MERGE', style, this.options.style.custom );
+			this.style = new this.Style( Object.assign( Object.assign( {}, style.custom ), this.options.style.custom ) );
+		}
+		else {
+			//console.log( 'COPY', style.custom );
+			this.style = new this.Style( Object.assign( {}, style.custom ) );
+		}
+		//console.log( 'STYLE', this.style );
 	}
 	
 	// get normalized coords

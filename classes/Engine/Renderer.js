@@ -24,9 +24,10 @@ class Renderer extends require( './_Module' ) {
 	
 	// style wrapper
 	Style( style, callback ) {
+		var style_backup = this.style;
 		this.style = style;
 		callback();
-		this.style = this.default_style;
+		this.style = style_backup;
 	}
 	
 	//// drawing API ////

@@ -40,6 +40,26 @@ window.App.Extend({
 		delete this.renderer.canvases[ id ];
 	},
 	
+	Predraw: function( ctx, p ) {
+		// generic shape-independent stuff before shape draw
+		
+		if ( p.opacity )
+			ctx.globalAlpha = p.opacity;
+		
+		if ( p.fill )
+			ctx.fillStyle = p.fill;
+		if ( p.stroke )
+			ctx.strokeStyle = p.stroke;
+		
+	},
+	
+	Postdraw: function( ctx, p ) {
+		// generic shape-independent stuff after shape draw
+		
+		if ( p.opacity )
+			ctx.globalAlpha = 1; // revert back
+	},
+	
 	Draw: function( canvas, shape, parameters ) {
 		if ( !this.renderer.canvases[ canvas ] ) {
 			console.log( 'canvas not found' );
@@ -50,7 +70,10 @@ window.App.Extend({
 			console.log( 'invalid shape "' + shape + '"' );
 			return;
 		}
-		obj.Draw( this.renderer.canvases[ canvas ].ctx, parameters );
+		var ctx = this.renderer.canvases[ canvas ].ctx;
+		this.Predraw( ctx, parameters );
+		obj.Draw( ctx, parameters );
+		this.Postdraw( ctx, parameters );
 	},
 	
 });
