@@ -5,7 +5,7 @@ class _Command {
 	
 	Require( connection, request, callback ) {
 		var deps = {
-			'phase': [ 'session' ],
+			'phases': [ 'session' ],
 		};
 		for ( var target in deps ) {
 			for ( var kk in deps[ target ] ) {
@@ -24,8 +24,8 @@ class _Command {
 				case 'game':
 					r[ o ] = connection.web.engine.game;
 					break;
-				case 'phase':
-					r[ o ] = r.session.phase;
+				case 'phases':
+					r[ o ] = r.session.phases;
 					break;
 				default:
 					console.log( 'unknown require object "' + o + '"' );

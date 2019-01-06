@@ -15,17 +15,17 @@ class Session extends require( '../_Command' ) {
 			connection.Send( 'SetSession', {
 				id: session.id,
 			} );
-			if ( !session.phase ) {
+			if ( Object.keys( session.phases ).length == 0 ) { // not entered any phase yet, need to start game for this session
 				var game = connection.web.engine.game;
 				if ( !game ) {
 					console.log( 'no game defined' );
 					return;
 				}
 				if ( !game.entry_point ) {
-					console.log( 'no entry point defined' );
+					console.log( 'no game entry point defined' );
 					return;
 				}
-				session.SetPhase( game.entry_point );
+				game.entry_point( session );
 			}
 		}
 	}

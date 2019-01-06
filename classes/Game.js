@@ -7,13 +7,24 @@ class Game extends require( './_Class' ) {
 			
 		}, options );
 		
+		this.phases = {};
 		this.entry_point = null;
 	}
 	
-	// sets phase such as menu to be run when session begins
-	SetEntryPoint( phase ) {
-		this.entry_point = phase;
+	AddPhase( phase ) {
 		phase.game = this;
+		this.phases[ phase.id ] = phase;
+	}
+	
+	SetPhases( phases ) {
+		for ( var k in phases )
+			phases[ k ].game = this;
+		this.phases = phases;
+	}
+	
+	// sets entry point callback which is called for new sessions
+	Start( entry_point ) {
+		this.entry_point = entry_point;
 	}
 	
 }

@@ -5,21 +5,38 @@ class Session {
 	constructor( manager, id ) {
 		this.manager = manager;
 		this.id = id;
-		this.phase = null;
-		this.phase_context = null;
+		this.phases = {};
+		this.contexts = {};
 		this.connections = {};
 	}
 	
-	// change phase in session ( for all connections )
-	SetPhase( phase ) {
-		if ( this.phase )
-			this.phase.RemoveSession( this );
-		this.phase = phase;
-		this.phase.AddSession( this );
+	// add session to phase ( for all connections )
+	EnterPhase( phase ) {
+		if ( this.phases[ phase.id ] ) {
+			console.log( 'phase already added' );
+			return;
+		}
+		this.phases[ phase.id ] = phase;
+		this.phases[ phase.id ].AddSession( this );
 	}
 	
-	RenderPhase( connection ) {
-		this.phase.Render( this.phase_context, connection );
+	// remove session from phase ( for all connections )
+	LeavePhase( phase ) {
+		if ( !this.phases[ phase.id ] ) {
+			console.log( 'phase not added' );
+			return;
+		}
+		this.phases[ phase.id ].RemoveSession( this );
+		delete this.phases[ phase.id ];
+	}
+	
+	RenderPhase( phase, connection ) {
+		phase.Render( this.contexts[ phase.id ], connection );
+	}
+	
+	RenderPhases( connection ) {
+		for ( var k in this.phases )
+			this.RenderPhase( this.phases[ k ], connection );
 	}
 	
 	AddConnection( connection ) {
@@ -29,8 +46,10 @@ class Session {
 			return;
 		}
 		this.connections[ id ] = connection;
-		if ( this.phase )
-			this.phase._RenderStart( this.phase_context, this.connections[ id ] );
+		for ( var k in this.phases ) {
+			var phase = this.phases[ k ];
+			phase._RenderStart( this.contexts[ phase.id ], this.connections[ id ] );
+		}
 	}
 	
 	RemoveConnection( connection ) {
@@ -39,8 +58,10 @@ class Session {
 			console.log( 'connection not found' );
 			return;
 		}
-		if ( this.phase )
-			this.phase._RenderStop( this.phase_context, this.connections[ id ] );
+		for ( var k in this.phases[ k ] ) {
+			var phase = this.phases[ k ];
+			phase._RenderStop( this.contexts[ phase.id ], this.connections[ id ] );
+		}
 		delete this.connections[ id ];
 	}
 	

@@ -1,8 +1,11 @@
+var G_phase_id = 0;
+
 class _Phase extends require( './_Class' ) {
 	
 	constructor( name ) {
 		super();
-		
+
+		this.id = ++G_phase_id;
 		this.name = name;
 		
 		this.PhaseSessionContext = require( './Phase/PhaseSessionContext' );
@@ -39,7 +42,7 @@ class _Phase extends require( './_Class' ) {
 			return;
 		}
 		this.contexts[ id ] = new this.PhaseSessionContext( this, session );
-		session.phase_context = this.contexts[ id ];
+		session.contexts[ this.id ] = this.contexts[ id ];
 		this.Start( this.contexts[ id ] );
 		this.contexts[ id ].session.Update( ( connection ) => {
 			this._RenderStart( this.contexts[ id ], connection );
@@ -56,7 +59,7 @@ class _Phase extends require( './_Class' ) {
 			this._RenderStop( this.contexts[ id ], connection );
 		});
 		this.Stop( this.contexts[ id ] );
-		this.contexts[ id ].session.phase_context = null;
+		this.contexts[ id ].session.contexts[ this.id ] = null;
 		this.contexts[ id ].destructor();
 		delete this.contexts[ id ];
 	}
