@@ -16,6 +16,12 @@ class Button extends require( './_UIElement' ) {
 			fill: r.style.button_textcolor,
 		});
 		
+		var event = this.ui.game.engine.modules.eventmanager.CreateEvent( 'click', {
+			coords: c,
+			callback: this.options.callback,
+		});
+		console.log( this.options );
+		
 	}
 	
 }
