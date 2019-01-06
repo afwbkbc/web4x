@@ -9,15 +9,15 @@ class UI extends require( './_Phase' ) {
 	
 	Start( ctx ) {
 		ctx.AddCanvas( 'ui', new this.Canvas( 'fullscreen' ) );
-		console.log( 'UI START', ctx.session.id );
+		console.log( 'UI START', this.name, ctx.session.id );
 	}
 	
 	Stop( ctx ) {
-		console.log( 'UI STOP', ctx.session.id );
+		console.log( 'UI STOP', this.name, ctx.session.id );
 	}
 	
 	Render( ctx, connection ) {
-		console.log( 'UI RENDER', connection.session.id + '/' + connection.id );
+		console.log( 'UI RENDER', this.name, connection.session.id + '/' + connection.id );
 		
 		ctx.Render( connection, 'ui', ( r ) => {
 			

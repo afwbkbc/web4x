@@ -6,7 +6,7 @@ window.App.Extend({
 		data: {},
 	},
 	
-	LoadAssets: function( assets ) {
+	LoadAssets: function( phase, assets ) {
 		var toload = [];
 		for ( var k in assets ) {
 			var asset = assets[ k ];
@@ -17,14 +17,15 @@ window.App.Extend({
 		// TODO: client-side caching
 		if ( toload.length > 0 ) {
 			this.SendMessage( 'GetAssets', {
+				phase: phase,
 				assets: toload,
 			});
 		}
 		else
-			this.StartPhase();
+			this.StartPhase( phase );
 	},
 	
-	UnloadAssets: function( assets ) {
+	UnloadAssets: function( phase, assets ) {
 		console.log( 'unloadassets', assets );
 	},
 	
@@ -58,6 +59,7 @@ window.App.Extend({
 			return;
 		}
 		this.assets.loaded[ id ] = this.assets.data;
+		var phase = this.assets.data.phase;
 		this.assets.data = {};
 		this.assets.loaded[ id ].data = data;
 		this.assets.toinit[ id ] = true;
@@ -65,7 +67,7 @@ window.App.Extend({
 		this._InitAsset( this.assets.loaded[ id ], function() {
 			if ( Object.keys( that.assets.toinit ).length == 0 ) {
 				// all required assets loaded
-				that.StartPhase();
+				that.StartPhase( phase );
 			}
 		});
 	},

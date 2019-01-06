@@ -11,12 +11,15 @@ window.App.Extend({
 		this.StopRenderer();
 	},
 	
-	StartPhase: function() {
-		console.log( 'START' );
-		this.SendMessage( 'Render' );
+	StartPhase: function( phase ) {
+		console.log( 'START', phase );
+		this.SendMessage( 'Render', {
+			phase: phase,
+		});
 	},
 	
-	StopPhase: function() {
-		console.log( 'STOP' );
+	StopPhase: function( phase ) {
+		console.log( 'STOP', phase );
+		// TODO: ?
 	},
 });

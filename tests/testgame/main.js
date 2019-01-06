@@ -22,7 +22,7 @@ engine.Init( () => {
 	game.Start( ( session ) => {
 		
 		session.EnterPhase( phases.main_menu );
-		session.EnterPhase( phases.console );
+		//session.EnterPhase( phases.console );
 		
 	});
 	

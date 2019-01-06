@@ -12,26 +12,26 @@ class Session {
 	
 	// add session to phase ( for all connections )
 	EnterPhase( phase ) {
-		if ( this.phases[ phase.id ] ) {
+		if ( this.phases[ phase.name ] ) {
 			console.log( 'phase already added' );
 			return;
 		}
-		this.phases[ phase.id ] = phase;
-		this.phases[ phase.id ].AddSession( this );
+		this.phases[ phase.name ] = phase;
+		this.phases[ phase.name ].AddSession( this );
 	}
 	
 	// remove session from phase ( for all connections )
 	LeavePhase( phase ) {
-		if ( !this.phases[ phase.id ] ) {
+		if ( !this.phases[ phase.name ] ) {
 			console.log( 'phase not added' );
 			return;
 		}
-		this.phases[ phase.id ].RemoveSession( this );
-		delete this.phases[ phase.id ];
+		this.phases[ phase.name ].RemoveSession( this );
+		delete this.phases[ phase.name ];
 	}
 	
 	RenderPhase( phase, connection ) {
-		phase.Render( this.contexts[ phase.id ], connection );
+		phase.Render( this.contexts[ phase.name ], connection );
 	}
 	
 	RenderPhases( connection ) {
@@ -48,7 +48,7 @@ class Session {
 		this.connections[ id ] = connection;
 		for ( var k in this.phases ) {
 			var phase = this.phases[ k ];
-			phase._RenderStart( this.contexts[ phase.id ], this.connections[ id ] );
+			phase._RenderStart( this.contexts[ phase.name ], this.connections[ id ] );
 		}
 	}
 	
@@ -60,7 +60,7 @@ class Session {
 		}
 		for ( var k in this.phases[ k ] ) {
 			var phase = this.phases[ k ];
-			phase._RenderStop( this.contexts[ phase.id ], this.connections[ id ] );
+			phase._RenderStop( this.contexts[ phase.name ], this.connections[ id ] );
 		}
 		delete this.connections[ id ];
 	}

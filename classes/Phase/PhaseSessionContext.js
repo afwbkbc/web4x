@@ -35,14 +35,16 @@ class PhaseSessionContext {
 		}
 	}
 	
-	LoadAssets( connection, assets ) {
+	LoadAssets( connection, phase, assets ) {
 		connection.Send( 'LoadAssets', {
+			phase: phase,
 			assets: assets,
 		});
 	}
 	
-	UnloadAssets( connection, assets ) {
+	UnloadAssets( connection, phase, assets ) {
 		connection.Send( 'UnloadAssets', {
+			phase: phase,
 			assets: assets,
 		});
 	}

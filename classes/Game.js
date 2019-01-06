@@ -13,7 +13,7 @@ class Game extends require( './_Class' ) {
 	
 	AddPhase( phase ) {
 		phase.game = this;
-		this.phases[ phase.id ] = phase;
+		this.phases[ phase.name ] = phase;
 	}
 	
 	SetPhases( phases ) {

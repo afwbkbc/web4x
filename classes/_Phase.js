@@ -25,13 +25,13 @@ class _Phase extends require( './_Class' ) {
 	
 	_RenderStart( context, connection ) {
 		context.LoadCanvases( connection );
-		context.LoadAssets( connection, this.asset_ids );
+		context.LoadAssets( connection, this.name, this.asset_ids );
 		this.RenderStart( context, connection );
 	}
 	
 	_RenderStop( context, connection ) {
 		this.RenderStop( context, connection );
-		context.UnloadAssets( connection, this.asset_ids );
+		context.UnloadAssets( connection, this.name, this.asset_ids );
 		context.UnloadCanvases( connection );
 	}
 	
@@ -42,7 +42,7 @@ class _Phase extends require( './_Class' ) {
 			return;
 		}
 		this.contexts[ id ] = new this.PhaseSessionContext( this, session );
-		session.contexts[ this.id ] = this.contexts[ id ];
+		session.contexts[ this.name ] = this.contexts[ id ];
 		this.Start( this.contexts[ id ] );
 		this.contexts[ id ].session.Update( ( connection ) => {
 			this._RenderStart( this.contexts[ id ], connection );
@@ -59,7 +59,7 @@ class _Phase extends require( './_Class' ) {
 			this._RenderStop( this.contexts[ id ], connection );
 		});
 		this.Stop( this.contexts[ id ] );
-		this.contexts[ id ].session.contexts[ this.id ] = null;
+		this.contexts[ id ].session.contexts[ this.name ] = null;
 		this.contexts[ id ].destructor();
 		delete this.contexts[ id ];
 	}

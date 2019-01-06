@@ -7,7 +7,7 @@ class Console extends require( '../UI' ) {
 		const Column = require( '../UI/Column' );
 		
 		var container = new Column({
-			coords: [ 0, 0, 959, 1079 ],
+			coords: [ 0, 0, 1919, 539 ],
 			style: new Style({
 				
 			}),
