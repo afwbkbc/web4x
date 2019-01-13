@@ -10,8 +10,8 @@ class _Block extends require( './_UIElement' ) {
 		
 		r.Quad({
 			coords: m.area,
-			stroke: r.style.block_bordercolor,
-			fill: r.style.block_backgroundcolor,
+			stroke: r.style.bordercolor,
+			fill: r.style.backgroundcolor,
 		});
 		
 		if ( this.children.length > 0 ) {

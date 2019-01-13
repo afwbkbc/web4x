@@ -3,16 +3,33 @@ class UI extends require( './_Phase' ) {
 	constructor( name ) {
 		super( 'ui/' + name );
 		
-		this.children = [];
 		this.style = new ( require( './UI/Style' ) );
+		
+		this.children = [];
+		this.events = {};
+	}
+	
+	// override these if needed
+	UIInit() {}
+	UIStart( ctx ) {}
+	UIStop( ctx ) {}
+	UIRender( ctx, connection ) {}
+	
+	InitPhase() {
+
+		this.UIInit();
 	}
 	
 	Start( ctx ) {
-		ctx.AddCanvas( 'ui', new this.Canvas( 'fullscreen' ) );
 		console.log( 'UI START', this.name, ctx.session.id );
+		ctx.AddCanvas( 'ui', new this.Canvas( 'fullscreen' ) );
+		ctx.AddEvents( this.events );
+		this.UIStart( ctx );
 	}
 	
 	Stop( ctx ) {
+		ctx.RemoveEvents( this.events );
+		this.UIStop( ctx );
 		console.log( 'UI STOP', this.name, ctx.session.id );
 	}
 	
@@ -34,8 +51,14 @@ class UI extends require( './_Phase' ) {
 				
 				});
 			}
-				
+			
 		});
+		
+		this.UIRender( ctx, connection );
+	}
+	
+	SetStyle( style ) {
+		this.style = style;
 	}
 	
 	AddChild( child ) {
@@ -43,8 +66,9 @@ class UI extends require( './_Phase' ) {
 		this.children.push( child );
 	}
 	
-	SetStyle( style ) {
-		this.style = style;
+	AddEvent( event ) {
+		this.events[ event.id ] = event;
+		console.log( 'E', this.events );
 	}
 }
 

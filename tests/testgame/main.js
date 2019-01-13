@@ -21,6 +21,9 @@ engine.Init( () => {
 	
 	game.Start( ( session ) => {
 		
+		engine.Log( 'TEST LOG 1' );
+		engine.Log( 'TEST LOG 2' );
+		
 		session.EnterPhase( phases.main_menu );
 		//session.EnterPhase( phases.console );
 		

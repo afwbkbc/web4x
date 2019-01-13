@@ -25,9 +25,12 @@ class Engine extends require( './_Class.js' ) {
 	
 	SetGame( game ) {
 		this.game = game;
-		game.engine = this;
+		game.Init( this );
 	}
 	
+	Log( text ) {
+		this.modules.logger.Log( text );
+	}
 }
 
 module.exports = Engine;

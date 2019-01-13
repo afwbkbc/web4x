@@ -7,8 +7,8 @@ module.exports = ( X ) => {
 			{
 				
 				var style = new X.UI.Style({
-					block_backgroundcolor: '#000204',
-					block_bordercolor: '#ddddff',
+					backgroundcolor: '#000204',
+					bordercolor: '#ddddff',
 					button_backgroundcolor: '#090709',
 					button_bordercolor: '#eeeeee',
 					button_textcolor: 'white',
@@ -19,7 +19,7 @@ module.exports = ( X ) => {
 				this.AddAsset( new X.Asset.Image( 'main_menu_bg', __dirname + '/../../assets/images/main_menu_bg.png' ) );
 				this.AddChild( new X.UI.Image({
 					id: 'main_menu_bg',
-					coords: [ 0, 0, 1919, 1079 ],
+					coords: [ 0, 0, 1920, 1080 ],
 				}));
 				
 				this.AddChild( new X.UI.Label({

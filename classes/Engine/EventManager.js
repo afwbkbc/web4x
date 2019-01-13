@@ -8,8 +8,8 @@ class EventManager extends require( './_Module' ) {
 		this.events = {};
 	}
 	
-	CreateEvent( type, options ) {
-		var event = new this.Event( type, options );
+	CreateEvent( type, callback, options ) {
+		var event = new this.Event( type, callback, options );
 		this.events[ event.id ] = event;
 		return event;
 	}

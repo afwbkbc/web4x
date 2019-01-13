@@ -2,8 +2,8 @@
 const G_styles = {
 	textcolor: 'black',
 	font: '40px Arial Bold',
-	block_backgroundcolor: '#ccc',
-	block_bordercolor: '#444',
+	backgroundcolor: '#ccc',
+	bordercolor: '#444',
 	button_backgroundcolor: '#aaa',
 	button_bordercolor: '#444',
 	button_textcolor: '#333',

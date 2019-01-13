@@ -17,6 +17,7 @@ class _Phase extends require( './_Class' ) {
 	}
 	
 	// override these
+	InitPhase() {} // initialize this.engine dependent stuff here
 	Start( ctx ) {} // load for session context. initialization of all non-visible stuff goes here
 	Stop( ctx ) {} // unload for session context. deinitialization of all non-visible stuff goes here
 	RenderStart( ctx, connection ) {} // load for connection. prepare visible stuff such as UI on connection
@@ -85,6 +86,11 @@ class _Phase extends require( './_Class' ) {
 		return this.assets[ this.asset_ids[ name ] ];
 	}
 	
+	Init( engine ) {
+		this.engine = engine;
+		this.InitPhase();
+	}
+
 }
 
 module.exports = _Phase;
